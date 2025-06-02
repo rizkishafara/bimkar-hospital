@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dokter\JadwalPeriksaController;
+use App\Http\Controllers\Pasien\JanjiPeriksaController;
+use App\Http\Controllers\Dokter\MemeriksaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,7 +33,7 @@ Route::middleware([
         ])->name('dokter.jadwal-periksa.index');
         Route::post('/', [
             JadwalPeriksaController::class,
-            'store'
+            'storeWithId'
         ])->name('dokter.jadwal-periksa.store');
         Route::patch('/{id}', [
             JadwalPeriksaController::class,
@@ -44,6 +46,28 @@ Route::middleware([
         Route::patch('/{id}', 'App\Http\Controllers\Dokter\ObatController@update')->name('dokter.obat.update');
         Route::delete('/{id}', 'App\Http\Controllers\Dokter\ObatController@destroy')->name('dokter.obat.destroy');
     });
+    Route::prefix('memeriksa')->group(function () {
+        Route::get('/', [
+            MemeriksaController::class,
+            'index'
+        ])->name('dokter.memeriksa.index');
+        Route::post('/{id}', [
+            MemeriksaController::class,
+            'store'
+        ])->name('dokter.memeriksa.store');
+        Route::get('/{id}/periksa', [
+            MemeriksaController::class,
+            'periksa'
+        ])->name('dokter.memeriksa.periksa');
+        Route::get('/{id}/edit', [
+            MemeriksaController::class,
+            'edit'
+        ])->name('dokter.memeriksa.edit');
+        Route::patch('/{id}', [
+            MemeriksaController::class,
+            'update'
+        ])->name('dokter.memeriksa.update');
+    });
 });
 
 Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->group(function () {
@@ -51,7 +75,18 @@ Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->group(function () 
         return view('pasien.dashboard');
         // dd("Ini adalah dashboard pasien");
     })->name('pasien.dashboard');
+    Route::prefix('janji-periksa')->group(function () {
+        Route::get('/', [
+            JanjiPeriksaController::class,
+            'index'
+        ])->name('pasien.janji-periksa.index');
+        Route::post('/', [
+            JanjiPeriksaController::class,
+            'store'
+        ])->name('pasien.janji-periksa.store');
+    });
 });
+
 
 
 require __DIR__ . '/auth.php';

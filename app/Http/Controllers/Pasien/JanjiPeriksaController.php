@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pasien;
 
 use App\Models\JadwalPeriksa;
-use App\Models\User;
-
 use App\Models\JanjiPeriksa;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
-abstract class Controller
+class JanjiPeriksaController extends Controller
 {
     public function index()
     {

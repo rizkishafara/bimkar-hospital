@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dokter\JadwalPeriksaController;
+use App\Http\Controllers\Pasien\JanjiPeriksaController;
+use App\Http\Controllers\Dokter\MemeriksaController;
+use App\Http\Controllers\Dokter\ObatController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Pasien\RiwayatPeriksaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,10 +43,32 @@ Route::middleware([
         ])->name('dokter.jadwal-periksa.update');
     });
     Route::prefix('obat')->group(function () {
-        Route::get('/', 'App\Http\Controllers\Dokter\ObatController@index')->name('dokter.obat.index');
-        Route::post('/', 'App\Http\Controllers\Dokter\ObatController@store')->name('dokter.obat.store');
-        Route::patch('/{id}', 'App\Http\Controllers\Dokter\ObatController@update')->name('dokter.obat.update');
-        Route::delete('/{id}', 'App\Http\Controllers\Dokter\ObatController@destroy')->name('dokter.obat.destroy');
+        Route::get('/', [ObatController::class, 'index'])->name('dokter.obat.index');
+        Route::post('/', [ObatController::class, 'store'])->name('dokter.obat.store');
+        Route::patch('/{id}', [ObatController::class, 'update'])->name('dokter.obat.update');
+        Route::delete('/{id}', [ObatController::class, 'destroy'])->name('dokter.obat.destroy');
+    });
+    Route::prefix('memeriksa')->group(function () {
+        Route::get('/', [
+            MemeriksaController::class,
+            'index'
+        ])->name('dokter.memeriksa.index');
+        Route::post('/{id}', [
+            MemeriksaController::class,
+            'store'
+        ])->name('dokter.memeriksa.store');
+        Route::get('/{id}/periksa', [
+            MemeriksaController::class,
+            'periksa'
+        ])->name('dokter.memeriksa.periksa');
+        Route::get('/{id}/edit', [
+            MemeriksaController::class,
+            'edit'
+        ])->name('dokter.memeriksa.edit');
+        Route::patch('/{id}', [
+            MemeriksaController::class,
+            'update'
+        ])->name('dokter.memeriksa.update');
     });
 });
 
@@ -51,6 +77,41 @@ Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->group(function () 
         return view('pasien.dashboard');
         // dd("Ini adalah dashboard pasien");
     })->name('pasien.dashboard');
+    Route::prefix('janji-periksa')->group(
+        function () {
+            Route::get('/', [
+                JanjiPeriksaController::class,
+                'index'
+            ])->name('pasien.janji-periksa.index');
+            Route::post(
+                '/',
+                [
+                    JanjiPeriksaController::class,
+                    'store'
+                ]
+            )->name('pasien.janji-periksa.store');
+        }
+    );
+    Route::prefix('riwayat-periksa')->group(function () {
+        Route::get('/', [
+            RiwayatPeriksaController::class,
+            'index'
+        ])->name('pasien.riwayat-periksa.index');
+        Route::get(
+            '/{id}/detail',
+            [
+                RiwayatPeriksaController::class,
+                'detail'
+            ]
+        )->name('pasien.riwayat-periksa.detail');
+        Route::get(
+            '/{id}/riwayat',
+            [
+                RiwayatPeriksaController::class,
+                'riwayat'
+            ]
+        )->name('pasien.riwayat-periksa.riwayat');
+    });
 });
 
 

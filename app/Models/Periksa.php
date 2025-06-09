@@ -24,7 +24,7 @@ class Periksa extends Model
             'id_janji_periksa'
         );
     }
-    public function detailPeriksas(): HasMany
+    public function detailPeriksa(): HasMany
     {
         return $this->hasMany(
             DetailPeriksa::class,

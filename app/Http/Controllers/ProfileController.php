@@ -15,8 +15,16 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $poli = [
+            'Penyakit Dalam',
+            'Anak',
+            'Kebidanan dan Kandungan',
+            'Mata',
+            'THT'
+        ];
         return view('profile.edit', [
             'user' => $request->user(),
+            'poli' => $poli,
         ]);
     }
 

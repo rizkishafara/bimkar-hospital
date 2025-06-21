@@ -25,7 +25,7 @@
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" readonly />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
         </div>
 
@@ -34,7 +34,13 @@
         <!-- poli -->
         <div>
             <x-input-label for="poli" :value="__('Poli')" />
-            <x-text-input id="poli" name="poli" type="text" class="mt-1 block w-full" :value="old('poli', $user->poli)" required autocomplete="poli" />
+            <!-- <x-text-input id="poli" name="poli" type="text" class="mt-1 block w-full" :value="old('poli', $user->poli)" required autocomplete="poli" /> -->
+            <select class="rounded form-control" id="poli" name="poli">
+                @foreach ($poli as $pol)
+                <option value="{{ $pol }}" @if($pol==$user->poli) selected @endif>{{$pol}}
+                </option>
+                @endforeach
+            </select>
             <x-input-error class="mt-2" :messages="$errors->get('poli')" />
         </div>
         @endif

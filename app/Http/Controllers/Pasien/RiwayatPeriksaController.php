@@ -16,7 +16,9 @@ class RiwayatPeriksaController extends Controller
         $janjiPeriksas = JanjiPeriksa::where(
             'id_pasien',
             Auth::user()->id
-        )->get();
+        )
+            ->whereHas('periksa')
+            ->get();
         return view('pasien.riwayat-periksa.index')->with([
             'no_rm' => $no_rm,
             'janjiPeriksas' => $janjiPeriksas,

@@ -5,6 +5,7 @@ use App\Http\Controllers\Dokter\JadwalPeriksaController;
 use App\Http\Controllers\Pasien\JanjiPeriksaController;
 use App\Http\Controllers\Dokter\MemeriksaController;
 use App\Http\Controllers\Dokter\ObatController;
+use App\Http\Controllers\pasien\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pasien\RiwayatPeriksaController;
 
@@ -73,10 +74,16 @@ Route::middleware([
 });
 
 Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pasien.dashboard');
-        // dd("Ini adalah dashboard pasien");
-    })->name('pasien.dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('pasien.dashboard');
+    //     // dd("Ini adalah dashboard pasien");
+    // })->name('pasien.dashboard');
+    Route::get('/dashboard', [
+        DashboardController::class,
+        'index'
+    ])->name('pasien.dashboard');
+
+
     Route::prefix('janji-periksa')->group(
         function () {
             Route::get('/', [
